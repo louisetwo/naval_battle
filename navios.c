@@ -3,7 +3,7 @@
 #include "utils.h"
 
 //tipos de navios 
-void adiciona_barco(struct mapa *mapa, int tam){
+void adiciona_barco(struct mapa *mapa, int tam, struct navios *navios, int num){
     mostra_mapa(*mapa);
     char coordenada_char;
     printf("Qual a coordenada de A a J?\n");
@@ -18,7 +18,7 @@ void adiciona_barco(struct mapa *mapa, int tam){
 
     if(mapa->coordenadas[coordenadaY][coordenadaX] == 'N'){
         printf("Já existe um navio nessa posição, selecione novamente:\n");
-        return adiciona_barco(mapa, tam);
+        return adiciona_barco(mapa, tam, navios, num);
     }
 
     struct coordenada coordenada;
@@ -34,25 +34,31 @@ void adiciona_barco(struct mapa *mapa, int tam){
     scanf("%d", &opcao);
     getchar();
 
-    desenha_mapa(mapa, coordenada, coordenadas_validadas[opcao]);
+    desenha_mapa(mapa, coordenada, coordenadas_validadas[opcao], 'N');
+
+    struct posicao posicao;
+    posicao.c1 = coordenada;
+    posicao.c2 = coordenadas_validadas[opcao];
+    navios->posicoes[num] = posicao;
+
 }
 
-void adiciona_porta_avioes(struct mapa *mapa, struct jogador jogador){
+void adiciona_porta_avioes(struct mapa *mapa, struct jogador jogador, struct navios *navios, int num){
     printf("%s, adicione um porta aviões!\n", jogador.nickname);
-    adiciona_barco(mapa, 5);
+    adiciona_barco(mapa, 5, navios, num);
 }
 
-void adiciona_encouracado(struct mapa *mapa, struct jogador jogador){
+void adiciona_encouracado(struct mapa *mapa, struct jogador jogador, struct navios *navios, int num){
     printf("%s, adicione um encouraçado!\n", jogador.nickname);
-    adiciona_barco(mapa, 4);
+    adiciona_barco(mapa, 4, navios, num);
 }
 
-void adiciona_cruzador(struct mapa *mapa, struct jogador jogador){
+void adiciona_cruzador(struct mapa *mapa, struct jogador jogador, struct navios *navios, int num){
     printf("%s, adicione um cruzador!\n", jogador.nickname);
-    adiciona_barco(mapa, 3);
+    adiciona_barco(mapa, 3, navios, num);
 }
-void adiciona_submarino(struct mapa *mapa, struct jogador jogador){
+void adiciona_submarino(struct mapa *mapa, struct jogador jogador, struct navios *navios, int num){
     printf("%s, adicione um submarino!\n", jogador.nickname);
-    adiciona_barco(mapa, 2);
+    adiciona_barco(mapa, 2, navios, num);
 }
 

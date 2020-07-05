@@ -19,6 +19,7 @@ struct jogador cria_jogador(){
     struct jogador jogador;
     printf("Digite o nickname:\n");
     fgets(jogador.nickname, 80, stdin);
+    jogador.nickname[strcspn(jogador.nickname, "\n")] = 0;  //achei na internet, primeira solução stackoverflow - https://stackoverflow.com/questions/2693776/removing-trailing-newline-character-from-fgets-input
     return jogador;
 }
 
@@ -182,26 +183,26 @@ int verifica_barco(struct coordenada coordenada1, struct coordenada coordenada2,
     return valido;
 }
 
-void desenha_mapa(struct mapa *mapa, struct coordenada coordenada1, struct coordenada coordenada2){
+void desenha_mapa(struct mapa *mapa, struct coordenada coordenada1, struct coordenada coordenada2, char letra){
     if(coordenada1.x == coordenada2.x){ // x igual(reta)
         if(coordenada1.y > coordenada2.y){
             for(int i= coordenada2.y; i <= coordenada1.y; i++){  // Desenha de cima pra baixo
-                mapa->coordenadas[i][coordenada1.x] = 'N';
+                mapa->coordenadas[i][coordenada1.x] = letra;
             }
         }else{
             for(int i= coordenada1.y; i <= coordenada2.y; i++){ 
-                mapa->coordenadas[i][coordenada1.x] = 'N';
+                mapa->coordenadas[i][coordenada1.x] = letra;
             }
         }       
     }else{  // y igual reta
         if(coordenada1.x > coordenada2.x){
             for(int i= coordenada2.x; i <= coordenada1.x; i++){
-                mapa->coordenadas[coordenada1.y][i] = 'N';
+                mapa->coordenadas[coordenada1.y][i] = letra;
             }
 
         }else{
             for(int i= coordenada1.x; i <= coordenada2.x; i++){
-               mapa->coordenadas[coordenada1.y][i] = 'N';
+               mapa->coordenadas[coordenada1.y][i] = letra;
             }
         }
     }
@@ -233,4 +234,42 @@ int checa_fimdejogo(struct mapa mapa1, struct mapa mapa2, struct jogador jogador
         return 0;
     }
 
+}
+
+int verifica_barco_destruido(struct coordenada coordenada1, struct coordenada coordenada2, struct mapa mapa){
+    int destruido = 1; 
+    if(coordenada1.y == coordenada2.y){
+        if(coordenada1.x < coordenada2.x){
+            for(int i=coordenada1.x; i<=coordenada2.x; i++){
+                if(mapa.coordenadas[coordenada1.y][i] != 'X'){
+                    destruido = 0;
+                    break;
+                }
+            }
+        }else{
+            for(int i=coordenada2.x; i<=coordenada1.x; i++){
+                if(mapa.coordenadas[coordenada1.y][i] != 'X'){
+                    destruido = 0;
+                    break;
+                }
+            }
+        }
+    }else{
+        if(coordenada1.y < coordenada2.y){
+            for(int i=coordenada1.y; i<=coordenada2.y; i++){
+                if(mapa.coordenadas[i][coordenada1.x] != 'X'){
+                    destruido = 0;
+                    break;
+                }
+            }    
+        }else{
+            for(int i=coordenada2.y; i<=coordenada1.y; i++){
+                if(mapa.coordenadas[i][coordenada1.x] != 'X'){
+                    destruido = 0;
+                    break;
+                }
+            }  
+        }
+    }
+    return destruido;
 }
