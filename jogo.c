@@ -1,6 +1,9 @@
+#include "jogo.h"
 #include "estado.h"
 #include "utils.h"
 #include "navios.h"
+#include "mapa.h"
+#include "jogador.h"
 
 void comecar_jogo(){
     struct estado estado;
