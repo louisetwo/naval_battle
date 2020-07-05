@@ -1,8 +1,6 @@
 #ifndef ESTADO
 #define ESTADO
 
-
-
 struct estado {
     struct jogador jogador1;
     struct jogador jogador2;

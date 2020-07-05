@@ -1,11 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "utils.h"
-#include "mapa.h"
-#include "navios.h"
-#include "ranking.h"
+#include "utils.c"
+#include "navios.c"
 #include "jogo.c"
-
+#include "ranking.h"
+#include "mapa.h"
 
 int main(void){
     int opcao;
